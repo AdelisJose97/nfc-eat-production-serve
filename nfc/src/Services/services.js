@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/services'
+const baseUrl = `${process.env.REACT_APP_URL}/api/services`
 
 const getAll = () => {
   const request = axios.get(baseUrl)
