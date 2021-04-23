@@ -1,0 +1,15 @@
+.in-process-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.in-process-container img {
+  max-width: 50%;
+}
+
+.in-process-container a {
+  text-decoration: none;
+  color: #b22585;
+}
