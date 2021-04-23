@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "start-server": "cd nfc && npm run build && cd .. && npm run dev",
+    "start-server": "cd nfc && npm run build && cd .. && pm2 start index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "adevlist",
