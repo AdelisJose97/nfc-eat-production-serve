@@ -13,10 +13,27 @@ servicesRouter.get('/', async (request, response, next) => {
 
 // Crear un nuevo servicio
 servicesRouter.post('/', credentialsExtractor, async (request, response, next) => {
-  const { name } = request.body
+  const { name, start, end } = request.body
   const { userId } = request
-  const newService = new Service({ name })
+  if (!name || !start || !end) {
+    return response.status(400).json({
+      error: 'some service property is missing'
+    })
+  }
+
+  const newService = new Service({
+    name,
+    start,
+    end
+  })
   try {
+    const restaurant = await Restaurant.findById(userId)
+    console.log(restaurant.services.length)
+    if (restaurant.services.length >= 3) {
+      return response.status(400).json({
+        error: 'Limit of services exceeded'
+      })
+    }
     const savedService = await newService.save()
     await Restaurant.findByIdAndUpdate(userId, {
       $addToSet: {

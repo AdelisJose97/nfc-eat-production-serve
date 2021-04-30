@@ -386,13 +386,12 @@ span{
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 30%;
+  position: relative;
+  margin: auto;
   width: 90%;
-  left: 5%;
-  height: 35%;
   z-index: 3;
   border-radius: 0px 42px 42px 42px;
+  margin-top: 5%;
 }
 
 
@@ -515,13 +514,10 @@ ul{
     display: flex;
     padding: 0 10px;
   }
-  .categories-section-arow-next {
-    position: absolute;
-    top: 25%;
-  }
   .categories-section-arow-back {
     position: absolute;
     top: 25%;
+    left: 0;
   }
   .categories-section-arow-next {
      position: absolute;
@@ -533,8 +529,13 @@ ul{
     width: 70px;
     height: 70px;
   }
+
   .categories-section-container {
-    margin-right: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
   }
 
   .listOfCategories {
@@ -570,12 +571,26 @@ ul{
     }
     
     .see-our-menu {
-      height: 80px;
+      position: relative;
+      height: auto;
       background: #B22585;
+      padding: 1em;
     }
     .see-our-menu p {
+      position: relative;
       font-size: 0.9em;
       margin-bottom: 0;
+    }
+    .our-menu-ilustration {
+      position: absolute;
+      background-image: url(../../Assets/1.png);
+      background-size: cover;
+      z-index: 1;
+      height: 200%;
+      top: -25%;
+      left: 0;
+      right: 0;
+      opacity: 0.5;
     }
     .recommendation-card-container-description span {
       padding: 0;
@@ -676,7 +691,7 @@ ul{
     .modal-body {
       padding: 0% !important;
       flex: none;
-      height: 40%;
+      height: 50%;
     }
 
     .modal-footer {

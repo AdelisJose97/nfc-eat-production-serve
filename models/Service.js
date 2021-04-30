@@ -3,6 +3,8 @@ const timestamp = require('mongoose-timestamp')
 
 const ServiceSchema = new Schema({
   name: String,
+  start: String,
+  end: String,
   categories: [{
     type: Schema.Types.ObjectId,
     ref: 'Categories'

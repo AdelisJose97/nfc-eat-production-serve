@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useRef } from 'react'
 
 import Modall from '../Modal'
 
-const ListOfcategories = ({ services }) => {
+const ListOfcategories = ({ service }) => {
   const [show, setShow] = useState(false);
   const [itemSelected, setitemSelected] = useState({})
 
@@ -17,42 +17,37 @@ const ListOfcategories = ({ services }) => {
 
   return (
     <>
-      {services.map((service) => {
-        return service.categories.map((category, index) => {
-          const { name, dishes, icon } = category
-          return <section key={index} style={{ background: (index + 1) % 2 !== 0 ? '#F1F1F1' : '#FFFFFF' }} className="listOfCategories">
-            {dishes.map((dish, index) => {
-              return (
-                <div key={index} className="list-categories-container">
-                  <div className="categories-section-big-descripcion-top">
-                    <div className="categories-section-big-descripcion-top-title">
-                      <p>{name}</p>
-                      <div className="categories-section-big-descripcion-top-title-divider"></div>
-                    </div>
+      {service.categories && service.categories.map((category, index) => {
+        const { name, dishes, icon } = category
+        return <section id={name} key={index} style={{ background: (index + 1) % 2 !== 0 ? '#F1F1F1' : '#FFFFFF' }} className="listOfCategories">
+          {dishes.map((dish, index) => {
+            return (
+              <div key={index} className="list-categories-container">
+                <div className="categories-section-big-descripcion-top">
+                  <div className="categories-section-big-descripcion-top-title">
+                    <p>{name}</p>
+                    <div className="categories-section-big-descripcion-top-title-divider"></div>
                   </div>
-                  {dish && dish.image ?
-                    <div style={{ position: 'relative' }} onClick={() => handleShow(dish, ...icon)} className="categories-section-big-descripcion-middle">
-                      <p>{dish.name}</p>
-                      <span>{dish.description}</span>
-                      <div style={{ position: 'absolute', right: '15%', bottom: '50%', fontWeight: 'bold', fontSize: '1.5em' }}>{dish.price}€</div>
-                    </div>
-                    :
-                    <div style={{ position: 'relative' }} className="categories-section-big-descripcion-middle">
-                      <p>{dish.name}</p>
-                      <span>{dish.description}</span>
-                      <div style={{ position: 'absolute', right: '15%', bottom: '50%', fontWeight: 'bold', fontSize: '1.5em' }}>{dish.price}€</div>
-                    </div>
-
-                  }
-
                 </div>
-              )
-            })}
-          </section>
-
-
-        })
-      })}
+                {dish && dish.image ?
+                  <div style={{ position: 'relative' }} onClick={() => handleShow({ ...dish, icon })} className="categories-section-big-descripcion-middle">
+                    <p>{dish.name}</p>
+                    <span>{dish.description}</span>
+                    <div style={{ position: 'absolute', right: '15%', bottom: '50%', fontWeight: 'bold', fontSize: '1.5em' }}>{dish.price}€</div>
+                  </div>
+                  :
+                  <div style={{ position: 'relative' }} className="categories-section-big-descripcion-middle">
+                    <p>{dish.name}</p>
+                    <span>{dish.description}</span>
+                    <div style={{ position: 'absolute', right: '15%', bottom: '50%', fontWeight: 'bold', fontSize: '1.5em' }}>{dish.price}€</div>
+                  </div>
+                }
+              </div>
+            )
+          })}
+        </section>
+      })
+      }
       {/* {arrayOfCategories.map((category, index) => {
         const { title, items } = category
         return <section id={title} key={index} style={{ background: (index + 1) % 2 !== 0 ? '#F1F1F1' : '#FFFFFF' }} className="listOfCategories">

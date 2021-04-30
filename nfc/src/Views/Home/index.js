@@ -1,38 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './index.css'
-/* import ilustration from "../../Assets/1.png"
-import tostadaimg from '../../Assets/Tostadas.svg'
-import deliveryimg from '../../Assets/Delivery.svg'
-import veganoimg from '../../Assets/Vegano.svg'
-import batidoimg from '../../Assets/Batidos.svg'
-import bebidaimg from '../../Assets/Bebidas.svg'
-import cardimg from '../../Assets/card.jpg'
-import tostadas from '../../Assets/categorias/tostadas.jpg'
-import ensaladas from '../../Assets/categorias/ensaladas.jpg'
-import batidos from '../../Assets/categorias/batidos.jpg'
-import bebidas from '../../Assets/categorias/bebidas.jpg'
-import back from '../../Assets/left.svg'
-import next from '../../Assets/next.svg'
-import logo from '../../Assets/altos.jpg' */
+import dayjs from 'dayjs';
 
-//Logo principal y banner 
-/* import NFCLogo from '../../Assets/NFClogo.svg'
-import buscaricon from '../../Assets/buscar.svg'
-import usuarioicon from '../../Assets/usuario.svg' */
-
-
-/* //Iconos de redes sociales
-import facebookicon from '../../Assets/rrss/facebook.svg'
-import twittericon from '../../Assets/rrss/twitter.svg'
-import instagramicon from '../../Assets/rrss/instagram.svg'
-import whatsappicon from '../../Assets/rrss/whatsapp.svg' */
-
-/* //Iconos de contacto, direccion y pedidos
-import ubicationicon from '../../Assets/footer/ubicacion.svg'
-import horarioicon from '../../Assets/footer/horario.svg'
-import telefonoicon from '../../Assets/footer/telefono.svg'
-import correoicon from '../../Assets/footer/correo.svg' */
 
 //Componentes
 import Navbar from '../../Components/Navbar'
@@ -48,25 +18,61 @@ import { getOne } from '../../Services/restaurant'
 
 const handlerRestaurants = {
   altosdeltemplo: '607c906d8e5c5a1ac8ec301d',
-  pajares: '607efc8dcc7b241058138571'
+  pajares: '607efc8dcc7b241058138571',
+  test: '608a17d9a2db7aa01ebf37d4'
 
 }
 
 const Home = () => {
-  const [services, setservices] = useState([])
+  const [defaultService, setdefaultService] = useState({})
+  const [otherServices, setotherServices] = useState([])
 
   const { city, name } = useParams()
+
   const handlerId = handlerRestaurants[name]
+  const handleDefaultService = (services) => {
+    if (services.length <= 1) {
+      setdefaultService(services)
+    } else {
+      services.forEach((service) => {
+        const { start, end } = service
+        let hourStart = Number(start.substring(0, 2))
+        let minuteStart = Number(start.substring(3, 5))
+        let hourEnd = Number(end.substring(0, 2))
+        let minuteEnd = Number(end.substring(3, 5))
+
+        let hourStartParsed = dayjs().set('hour', hourStart).set('minute', minuteStart)
+        let hourEndParsed = dayjs().set('hour', hourEnd).set('minute', minuteEnd)
+
+        let IsInranged = dayjs().isAfter(hourStartParsed) && dayjs().isBefore(hourEndParsed)
+        if (IsInranged) {
+          setdefaultService({ ...service })
+        } else {
+          setotherServices(prev => [...prev, service])
+        }
+      })
+    }
+  }
+  const filterSelectedService = (service) => {
+    let a = defaultService
+    let newArray = otherServices.filter(item => item.name !== service.name)
+    let completeArray = [...newArray, a]
+    setotherServices(completeArray)
+    setdefaultService(service)
+  }
+
   useEffect(() => {
     /*  getAll()
        .then(response => {
          console.log(response)
        }) */
 
+
+
     getOne(city, handlerId)
       .then(response => {
         const { services } = response
-        setservices(services)
+        handleDefaultService(services)
       })
 
   }, [city, handlerId])
@@ -117,16 +123,12 @@ const Home = () => {
         <p className="text-secundary-nfc"><strong>Ofrecemos servicion de delivery</strong></p>
       </div>
  */}
-
       {/* seccion de categorias de comidas  */}
-      <LazyFoodCategory services={services} />
-      <ListOfcategories services={services} />
-      <OurMenu />
+      <LazyFoodCategory service={defaultService} />
+      <ListOfcategories service={defaultService} />
+      <OurMenu filterSelectedService={filterSelectedService} otherServices={otherServices} />
       <Footer />
       <BackTop />
-
-
-
 
 
 

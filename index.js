@@ -9,8 +9,6 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 
-
-
 // File upload
 const fileUpload = require('express-fileupload')
 app.use(fileUpload({
@@ -34,7 +32,6 @@ const servicesRouter = require('./controllers/services')
 const categoriesRouter = require('./controllers/categories')
 const dishsRouter = require('./controllers/dishs')
 
-
 // Servir archivos estaticos
 app.use(express.static('public'))
 /* app.use('/api/users', usersRouter) */
@@ -44,10 +41,10 @@ app.use('/api/services', servicesRouter)
 app.use('/api/categories', categoriesRouter)
 app.use('/api/dishs', dishsRouter)
 
-app.use(express.static(path.join(__dirname, "nfc", "build")));
+app.use(express.static(path.join(__dirname, 'nfc', 'build')))
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "nfc", "build", "index.html"))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'nfc', 'build', 'index.html'))
 })
 
 app.use(notFound)
