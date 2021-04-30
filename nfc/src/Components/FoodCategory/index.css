@@ -1,0 +1,15 @@
+.slider-container{
+  background: white;
+  width: 100%;
+  margin: auto;
+  position: sticky;
+  top: 160px;
+  z-index: 1020;
+  margin-top: 15px;
+}
+
+.slick-slider {
+  width: 85% !important;
+  margin: auto !important;
+  padding: 10px !important;
+}
